@@ -16,7 +16,11 @@ class Login extends React.Component {
     };
   }
 
-  // componentDidMount(){}
+  componentDidMount(){
+    const db=firebase.database()
+    const users = db.ref('users').on('value',(elem)=>console.log(elem.val()))
+    // console.log(users)
+  }
 
   handleChange = ({ target: { value, id } }) => {
     this.setState({ [id]: value });
