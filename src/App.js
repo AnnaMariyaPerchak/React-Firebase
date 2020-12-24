@@ -1,6 +1,6 @@
 import Login from './components/Login'
 import Register from './components/Register'
-// import Timer from './components/Timer'
+import Timer from './components/Timer'
 
 import React, { Component } from 'react';
 
@@ -12,9 +12,9 @@ class App extends Component {
       <div>
           <BrowserRouter>
               <div>
-              <Route path="/login"  component={Login} exact />
+              <Route path="/"  component={Login} exact />
               <Route path="/register" component={Register}/>
-              {/* <Route path="/timer" component={Timer}/> */}
+              <Route path="/timer" component={Timer}/>
               </div>
           </BrowserRouter>
 {/* <Login /> */}

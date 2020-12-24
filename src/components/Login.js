@@ -1,24 +1,75 @@
 import "./style.css";
 
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from "react-router-dom";
 
-import firebase from 'firebase';
+import firebase from "firebase";
 
-import React from 'react'
+import React from "react";
 
-class Login extends React.Component{
-  
-  render(){
-    console.log(this.state)
+class Login extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      password: "",
+      hasAccount: false,
+    };
+  }
+
+  // componentDidMount(){}
+
+  handleChange = ({ target: { value, id } }) => {
+    this.setState({ [id]: value });
+  };
+
+  logIn = () => {
+    const { email, password } = this.state;
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((response) => this.setState({ hasAccount: true }))
+      .catch((error) => console.log(error));
+  };
+
+  render() {
+    const isInvalid = this.state.email === "" || this.state.password === "";
+    const { hasAccount } = this.state;
+
     return (
-    <div className="login">
-      <p className="loginText">Login</p>
-      <input type="email" id="email" className="inputEmail" placeholder="Enter your email"/>
-      <input type="password" id="password" className="inputPassword" placeholder="Enter your password" />
-      <input type="submit" className="inputSubmit" value="Login"  />
-      <p className="loginText"> Don’t have an account yet? <Link to="/register">Register</Link> </p>
-    </div>
-  );
+      <div>
+        {hasAccount ? (
+          <Redirect to="/timer" />
+        ) : (
+          <div className="login">
+            <p className="loginText">Login</p>
+            <input
+              type="email"
+              id="email"
+              className="inputEmail"
+              placeholder="Enter your email"
+              onChange={this.handleChange}
+            />
+            <input
+              type="password"
+              id="password"
+              className="inputPassword"
+              placeholder="Enter your password"
+              onChange={this.handleChange}
+            />
+            <input
+              type="submit"
+              className="inputSubmit"
+              disabled={isInvalid}
+              value="Login"
+              onClick={this.logIn}
+            />
+            <p className="loginText">
+              Don’t have an account yet? <Link to="/register">Register</Link>
+            </p>
+          </div>
+        )}
+      </div>
+    );
   }
 }
 
