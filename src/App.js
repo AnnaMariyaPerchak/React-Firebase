@@ -17,7 +17,6 @@ class App extends Component {
               <Route path="/timer" component={Timer}/>
               </div>
           </BrowserRouter>
-{/* <Login /> */}
       </div>
   )
   }
