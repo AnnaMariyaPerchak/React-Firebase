@@ -8,10 +8,12 @@ class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      id:"",
       firstName: "",
       lastName: "",
       email: "",
       password: "",
+      time:0,
       isRegister: false,
     };
   }
@@ -21,10 +23,12 @@ class Register extends React.Component {
       .database()
       .ref("users/" + userId)
       .set({
+        id:userId,
         userName: name,
         userSurname: surname,
         email: email,
         password: password,
+        time:0
       });
   }
 

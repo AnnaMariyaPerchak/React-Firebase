@@ -25,12 +25,27 @@ class Timer extends Component {
     clearInterval(this.timer);
   }
 
+  rewriteTime(userId, time) {
+    firebase
+      .database()
+      .ref("users/" + userId)
+      .update({
+        time:time,
+      });
+  }
+
   logOut = () => {
     firebase
       .auth()
       .signOut()
       .then(() => {
         this.setState({ exit: true });
+
+        console.log(this.state.time)
+
+        const userId=JSON.parse(localStorage.getItem("user")).id
+        this.rewriteTime(userId,this.state.time)
+        
         localStorage.removeItem("user")
       })
       .catch((error) => console.log(error));
