@@ -16,12 +16,6 @@ class Login extends React.Component {
     };
   }
 
-  componentDidMount(){
-    const db=firebase.database()
-    const users = db.ref('users').on('value',(elem)=>console.log(elem.val()))
-    // console.log(users)
-  }
-
   handleChange = ({ target: { value, id } }) => {
     this.setState({ [id]: value });
   };
@@ -31,7 +25,18 @@ class Login extends React.Component {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then(() => this.setState({ hasAccount: true }))
+      .then(() => {
+        this.setState({ hasAccount: true });
+
+        var usersRef = firebase.database().ref("users/");
+
+        usersRef.on("child_added", (data) => {
+          var newPlayer = data.val();
+          if (newPlayer.email === email) {
+            localStorage.setItem("user", JSON.stringify(newPlayer));
+          }
+        });
+      })
       .catch((error) => console.log(error));
   };
 

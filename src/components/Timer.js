@@ -31,6 +31,7 @@ class Timer extends Component {
       .signOut()
       .then(() => {
         this.setState({ exit: true });
+        localStorage.removeItem("user")
       })
       .catch((error) => console.log(error));
   };
